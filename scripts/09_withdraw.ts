@@ -71,7 +71,7 @@ const main = async () => {
     const userAddress = await wallet.getAddress();
     
     // Hardcoded withdrawal amount (you can change this)
-    const withdrawAmountStr = "30"; // Amount to withdraw
+    const withdrawAmountStr = "0.1"; // Amount to withdraw
     
     console.log("💸 Withdrawing encrypted tokens to regular ERC20...");
     console.log("User address:", userAddress);

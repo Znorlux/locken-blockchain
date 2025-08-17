@@ -22,17 +22,33 @@ const main = async () => {
 	const babyJubJub = await deployLibrary(deployer);
 
 	// also deploys new erc20
-	const erc20Factory = await ethers.getContractFactory("SimpleERC20");
-	const erc20 = await erc20Factory.deploy("Test", "TEST", 18);
-	await erc20.waitForDeployment();
+	//const erc20Factory = await ethers.getContractFactory("SimpleERC20");
+	//const erc20 = await erc20Factory.deploy("Test", "TEST", 18);
+	//await erc20.waitForDeployment();
 
 	// mints some amount to deployer as well
-	const tx = await erc20.mint(deployer.address, ethers.parseEther("10000"));
-	await tx.wait();
+	//const tx = await erc20.mint(deployer.address, ethers.parseEther("10000"));
+	//await tx.wait();
 
-	console.log("ERC20 deployed at:", erc20.target);
-	console.log("Minted 10000 erc20 to deployer");
-
+	//console.log("ERC20 deployed at:", erc20.target);
+	//console.log("Minted 10000 erc20 to deployer");
+	const erc20Address = "0x9ba4d68eE64ce4c17A2d6D1EA073768217340841";
+	
+	// Conectar al contrato ERC20 existente para obtener información
+	const erc20Factory = await ethers.getContractFactory("SimpleERC20");
+	const erc20Contract = erc20Factory.attach(erc20Address);
+	
+	// Obtener información del token
+	const tokenName = await erc20Contract.name();
+	const tokenSymbol = await erc20Contract.symbol();
+	const tokenDecimals = await erc20Contract.decimals();
+	const totalSupply = await erc20Contract.totalSupply();
+	
+	console.log("📋 Información del token existente:");
+	console.log(`   Nombre: ${tokenName}`);
+	console.log(`   Símbolo: ${tokenSymbol}`);
+	console.log(`   Decimales: ${tokenDecimals}`);
+	console.log(`   Supply Total: ${ethers.formatUnits(totalSupply, tokenDecimals)} ${tokenSymbol}`);
 	// Create deployment data object
 	const deploymentData = {
 		network: "fuji",
@@ -47,14 +63,16 @@ const main = async () => {
 			babyJubJub: babyJubJub,
 			registrar: "",
 			encryptedERC: "",
-			testERC20: erc20.target,
+			testERC20: erc20Address,
 		},
 		metadata: {
 			isConverter: true,
 			decimals: DECIMALS,
-			testTokensMinted: "10000",
-			erc20Name: "USDAvax",
-			erc20Symbol: "USDAVAX",
+			testTokensMinted: ethers.formatUnits(totalSupply, tokenDecimals),
+			erc20Name: tokenName,
+			erc20Symbol: tokenSymbol,
+			erc20Decimals: Number(tokenDecimals),
+			totalSupplyWei: totalSupply.toString(),
 		}
 	};
 
@@ -65,7 +83,7 @@ const main = async () => {
 		withdrawVerifier,
 		transferVerifier,
 		babyJubJub,
-		testERC20: erc20.target,
+		testERC20: erc20Address,
 	});
 
 	// Save to JSON file

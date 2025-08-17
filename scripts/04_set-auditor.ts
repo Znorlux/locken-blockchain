@@ -9,7 +9,7 @@ const deploymentData = JSON.parse(fs.readFileSync(deploymentPath, "utf8"));
 
 const eERCAddress = deploymentData.contracts.encryptedERC;
 const auditorPublicKeyAddress =
-  "0x6e5976a948eA2d26573437De2c6568519AA75845" as any; // cambiar por la direccion del auditor
+  "0x69812b265c4b0a44a70a3a800439d23e69fd52ce" as any; // cambiar por la direccion del auditor
 const main = async () => {
   const [deployer] = await ethers.getSigners();
 

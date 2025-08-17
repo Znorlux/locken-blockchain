@@ -129,12 +129,13 @@ const main = async () => {
 
   const encryptedERCAddress = deploymentData.contracts.encryptedERC;
   const testERC20Address = deploymentData.contracts.testERC20;
+  const erc20Name = deploymentData.contracts.name;
   const registrarAddress = deploymentData.contracts.registrar;
 
-  console.log("🔧 Depositing 1 TEST token into EncryptedERC...");
+  console.log("🔧 Preparing deposit into EncryptedERC...");
   console.log("User address:", userAddress);
   console.log("EncryptedERC:", encryptedERCAddress);
-  console.log("TestERC20:", testERC20Address);
+  console.log(`${erc20Name} Address: ${testERC20Address}`);
 
   // Check gas balance
   const balance = await ethers.provider.getBalance(userAddress);
@@ -236,12 +237,18 @@ Registering user with
     const tokenBalance = await testERC20.balanceOf(userAddress);
     const tokenDecimals = await testERC20.decimals();
     const tokenSymbol = await testERC20.symbol();
+    
+    // Cantidad a depositar (puedes cambiar este valor)
+    const depositAmount = ethers.parseUnits("0.1", tokenDecimals);
+    const depositAmountFormatted = ethers.formatUnits(depositAmount, tokenDecimals);
 
     console.log(
       `💰 Current ${tokenSymbol} balance:`,
       ethers.formatUnits(tokenBalance, tokenDecimals),
       tokenSymbol
     );
+    
+    console.log(`🔧 Amount to deposit: ${depositAmountFormatted} ${tokenSymbol}`);
 
     // 5. Check current encrypted balance before deposit
     console.log("🔍 Checking current encrypted balance...");
@@ -289,12 +296,11 @@ Registering user with
       );
     }
 
-    // Amount to deposit: 1 TEST token
-    const depositAmount = ethers.parseUnits("10", tokenDecimals);
+    // Amount to deposit (already defined above)
 
     if (tokenBalance < depositAmount) {
       console.error(
-        `❌ Insufficient ${tokenSymbol} balance. Required: 1 ${tokenSymbol}, Available:`,
+        `❌ Insufficient ${tokenSymbol} balance. Required: ${depositAmountFormatted} ${tokenSymbol}, Available:`,
         ethers.formatUnits(tokenBalance, tokenDecimals),
         tokenSymbol
       );
@@ -357,7 +363,7 @@ Registering user with
     console.log("✅ AmountPCT generated successfully");
 
     // 6. Perform the deposit
-    console.log(`💾 Depositing 1 ${tokenSymbol} into EncryptedERC...`);
+    console.log(`💾 Depositing ${depositAmountFormatted} ${tokenSymbol} into EncryptedERC...`);
     const depositTx = await encryptedERC.deposit(
       depositAmount,
       testERC20Address,

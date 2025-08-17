@@ -8,7 +8,7 @@ const main = async () => {
 	// get deployer
 	const [deployer] = await ethers.getSigners();
     const latestDeployment = JSON.parse(fs.readFileSync(path.join(__dirname, "../deployments/latest-fuji.json"), "utf8"));
-    const { contracts } = latestDeployment;
+    const { contracts, metadata } = latestDeployment;
     const { registrationVerifier, mintVerifier, withdrawVerifier, transferVerifier, burnVerifier, babyJubJub, testERC20 } = contracts;
 
     const allContractsDeployed = registrationVerifier && mintVerifier && withdrawVerifier && transferVerifier && burnVerifier && babyJubJub && testERC20; 
@@ -16,6 +16,14 @@ const main = async () => {
         console.log("No verifiers found in latest deployment. Deploying new verifiers...");
         return;
     }
+
+    // Mostrar información del token ERC20 que se está usando
+    console.log("📋 Usando información del token ERC20:");
+    console.log(`   Dirección: ${testERC20}`);
+    console.log(`   Nombre: ${metadata.erc20Name || 'Test'}`);
+    console.log(`   Símbolo: ${metadata.erc20Symbol || 'TEST'}`);
+    console.log(`   Supply Total: ${metadata.testTokensMinted || '10000'}`);
+    console.log(`   Decimales: ${metadata.erc20Decimals || 18}`);
 
 	// deploy registrar contract
 	const registrarFactory = await ethers.getContractFactory("Registrar");
@@ -59,9 +67,11 @@ const main = async () => {
 		metadata: {
 			isConverter: true,
 			decimals: DECIMALS,
-			testTokensMinted: "10000",
-			erc20Name: "Test",
-			erc20Symbol: "TEST",
+			testTokensMinted: metadata.testTokensMinted,
+			erc20Name: metadata.erc20Name,
+			erc20Symbol: metadata.erc20Symbol,
+			erc20Decimals: metadata.erc20Decimals || 18,
+			totalSupplyWei: metadata.totalSupplyWei,
 		}
 	};
 

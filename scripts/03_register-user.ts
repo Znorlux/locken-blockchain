@@ -10,8 +10,8 @@ import type { RegistrationCircuit } from "../generated-types/zkit";
 const main = async () => {
   // Use specific PRIVATE_KEY for registration
   // const [wallet] = await ethers.getSigners();
-  //const [owner, wallet] = await ethers.getSigners(); //usuario 2
-  const [wallet] = await ethers.getSigners(); // usuario 1
+  const [owner, wallet] = await ethers.getSigners(); //usuario 2
+  //const [wallet] = await ethers.getSigners(); // usuario 1
 
   const userAddress = await wallet.getAddress();
 

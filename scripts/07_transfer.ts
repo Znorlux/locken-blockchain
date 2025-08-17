@@ -73,7 +73,7 @@ const main = async () => {
     
     const receiverAddress = await wallet2.getAddress();
     //const receiverAddress = await wallet.getAddress();
-    const transferAmountStr = "20";
+    const transferAmountStr = "0.1";
     
     console.log("💡 Using hardcoded values:");
     console.log("   Receiver:", receiverAddress);
