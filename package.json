@@ -13,11 +13,24 @@
     "deposit": "npx hardhat run scripts/06_deposit.ts --network fuji",
     "transfer": "npx hardhat run scripts/07_transfer.ts --network fuji",
     "check:balance": "npx hardhat run scripts/08_check_balance.ts --network fuji",
-    "withdraw": "npx hardhat run scripts/09_withdraw.ts --network fuji"
+    "withdraw": "npx hardhat run scripts/09_withdraw.ts --network fuji",
+    "api:start": "npx ts-node src/api/server.ts",
+    "api:dev": "npx nodemon --exec \"npx ts-node src/api/server.ts\" --ext ts,js,json",
+    "api:simple": "npx ts-node src/api/simple-server.ts",
+    "build": "npx tsc",
+    "start": "node dist/src/api/server.js"
   },
   "author": "",
   "license": "ISC",
   "description": "",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.3",
+    "nodemon": "^3.0.2",
+    "ethers": "^6.8.0"
+  },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.8",
@@ -27,8 +40,11 @@
     "@solarity/chai-zkit": "^0.3.1",
     "@solarity/hardhat-zkit": "^0.5.15",
     "@typechain/hardhat": "^9.1.0",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
     "@types/jest": "^29.5.14",
     "@types/mocha": "^10.0.10",
+    "@types/node": "^20.10.5",
     "@zk-kit/baby-jubjub": "^1.0.3",
     "dotenv": "^16.6.1",
     "hardhat": "^2.26.3",
