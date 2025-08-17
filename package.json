@@ -1,0 +1,43 @@
+{
+  "name": "encrypted-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "npx hardhat compile & npx hardhat zkit make --force && npx hardhat zkit verifiers",
+    "deploy:basic": "npx hardhat run scripts/01_deploy-basics.ts --network fuji",
+    "deploy:converter": "npx hardhat run scripts/02_deploy-converter.ts --network fuji",
+    "register:user": "npx hardhat run scripts/03_register-user.ts --network fuji",
+    "set:auditor": "npx hardhat run scripts/04_set-auditor.ts --network fuji",
+    "get:faucet": "npx hardhat run scripts/05_get_faucet.ts --network fuji",
+    "deposit": "npx hardhat run scripts/06_deposit.ts --network fuji",
+    "transfer": "npx hardhat run scripts/07_transfer.ts --network fuji",
+    "check:balance": "npx hardhat run scripts/08_check_balance.ts --network fuji",
+    "withdraw": "npx hardhat run scripts/09_withdraw.ts --network fuji"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.8",
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "@nomicfoundation/hardhat-toolbox": "^6.1.0",
+    "@openzeppelin/contracts": "^5.1.0",
+    "@solarity/chai-zkit": "^0.3.1",
+    "@solarity/hardhat-zkit": "^0.5.15",
+    "@typechain/hardhat": "^9.1.0",
+    "@types/jest": "^29.5.14",
+    "@types/mocha": "^10.0.10",
+    "@zk-kit/baby-jubjub": "^1.0.3",
+    "dotenv": "^16.6.1",
+    "hardhat": "^2.26.3",
+    "hardhat-gas-reporter": "^2.2.2",
+    "maci-crypto": "^2.0.0",
+    "poseidon-lite": "^0.3.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-solidity": "^1.4.2",
+    "solhint": "^5.0.5",
+    "solidity-coverage": "^0.8.14"
+  }
+}
